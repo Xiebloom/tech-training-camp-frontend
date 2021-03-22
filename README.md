@@ -1,11 +1,13 @@
-# project2
+
 # tech-training-camp-frontend
-MarkDownEditor
+MarkDown
 
 ##  1 技术方案
+### 1.1 实现方法
 * 语法解析：正则表达式
 * 项目开发：Vue框架
-
+### 1.2 技术栈
+Vue \ VueRouter \ Vue-cli
 ## 2 使用方法
 ### Project setup
 ```
