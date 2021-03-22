@@ -1,0 +1,79 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+html,
+body,
+#app {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+blockquote {
+    position: relative;
+    padding: 3px 0;
+    margin: 10px 0;
+    /* left: -13px; */
+    /* box-sizing: border-box; */
+    border-left: cornflowerblue 3px solid;
+    text-indent: 10px;
+    background-color: rgba(255, 255, 255, .3);
+}
+
+blockquote {
+    position: relative;
+    padding: 3px 0;
+    margin: 10px 0;
+    /* left: -13px; */
+    /* box-sizing: border-box; */
+    border-left: cornflowerblue 3px solid;
+    text-indent: 10px;
+    background-color: rgba(255, 255, 255, .3);
+}
+
+table {
+    border-collapse: collapse;
+    text-align: center;
+    margin: 10px 0;
+}
+
+td,
+th {
+    border: 2px solid gray;
+    padding: 10px;
+}
+
+hr {
+    position: relative;
+    left: -5%;
+    width: 110%;
+    margin: 10px 0;
+    border: none;
+    border-top: gray 2px solid;
+}
+
+pre {
+    position: relative;
+    left: -5%;
+    padding: 10px 0 10px 5%;
+    width: 105%;
+    background: rgba(0, 0, 0, .1);
+    font: 12px/1.2 Consolas, 'Courier New', monospace;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+a .linkimg {
+    height: 14px;
+    vertical-align: baseline
+}
+
+a span {
+    text-decoration: underline;
+}
+
