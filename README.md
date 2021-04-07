@@ -55,6 +55,8 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 1. 靠左、靠右排版功能
 2. 清除功能
 3. 输入链接时出现代表链接的图片，比起蓝色字符+下划线更美观
+
+--- 待加入 ---
 ### 3.6 NodeJS实现文件读取
 ### 3.7 共同编辑
 
