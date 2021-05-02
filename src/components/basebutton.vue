@@ -21,7 +21,7 @@ export default {
   methods: {
     click () {
       this.$emit(this.functiontype)
-      console.log('functiontype is ' + this.functiontype + ' by basebutton')
+      // console.log('functiontype is ' + this.functiontype + ' by basebutton')
     }
   }
 }

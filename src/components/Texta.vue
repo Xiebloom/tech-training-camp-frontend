@@ -1,6 +1,6 @@
 <template>
     <div class="main">
-      <textarea name="textarea" id="" v-model="text" @input="render"></textarea>
+      <textarea name="textarea" id="" v-model="text" @input="render" @scroll="controlScroll($event)()"></textarea>
       <div class="mdtext" v-html="mdtext" ref="md"></div>
   </div>
 </template>
@@ -20,7 +20,7 @@ export default {
   created () {
     // mounted 时刻，开始监听 rerender 事件
     EventBus.$on('rerender2', (newValue) => {
-      console.log('ok, now rerender')
+      // console.log('ok, now rerender')
       this.text = newValue
       this.render()
     })
@@ -90,12 +90,13 @@ export default {
               re = /^>\s/
               // 判断是否是多行连续引用
               while (i < len && rows[i].match(re)) {
-                temp += '<p>' + this.compile([rows[i].substring(2)]) + '</p>'
+                temp += this.compile([rows[i].substring(2)])
                 // 如果有下一行，并且下一行也是引用
                 if (rows[i + 1] && rows[i + 1].match(re)) i++
                 // 必须 break, 否则 i 不会自增，死循环
                 else break
               }
+              // console.log(temp)
               html += '<blockquote>' + temp + '</blockquote>'
               break
 
@@ -116,7 +117,7 @@ export default {
               temp = ''
               re = /^\d\.\s/
               while (i < len && rows[i].match(re)) {
-                temp += '<li>' + this.format(rows[i].substring(3)) + '</li>'
+                temp += '<li>' + this.compile([rows[i].substring(3)]) + '</li>'
                 // console.log(i);
                 if (rows[i + 1] && rows[i + 1].match(re)) i++
                 else break
@@ -187,7 +188,7 @@ export default {
                   break
               }
               // 模板字符串安排 style
-              html += `<p style="text-align: ${alignType};">` + rows[i].substring(3) + '</p>'
+              html += `<div style="text-align: ${alignType};">` + this.compile([rows[i].substring(3)]) + '</div>'
               break
             default:
               break
@@ -247,11 +248,26 @@ export default {
         for (i = 0, len = a.length; i < len; i++) {
           url = a[i].match(re1)[0]
           title = a[i].match(re2)[0]
-          str = str.replace(a[i], '<a href=' + url.substring(1, url.length - 1) + '>' + '<img src="pandaman.jpg" alt="..." class="linkimg"> ' + '<span>' + title.substring(1, title.length - 1) + '</span>' + '</a>')
+          str = str.replace(a[i], '<a href=' + url.substring(1, url.length - 1) + '>' + '<span>' + title.substring(1, title.length - 1) + '</span>' + '</a>')
         }
       }
 
       return str
+    },
+    // 协同滚动事件
+    controlScroll: function (event) {
+      const _this = this
+      let timer = null
+      return function () {
+        if (timer !== null) {
+          clearTimeout(timer)
+          timer = null
+        }
+        timer = setTimeout(() => {
+          // console.dir(event)
+          _this.$refs.md.scrollTop = event.target.scrollTop / event.target.scrollHeight * _this.$refs.md.scrollHeight
+        }, 500)
+      }
     }
   }
 }

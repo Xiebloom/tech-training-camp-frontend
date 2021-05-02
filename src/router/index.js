@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 // import Header from '../components/header.vue'
 import Home from '../views/home/Home.vue'
 import Refence from '../components/Refence.vue'
+import Files from '../components/files.vue'
 
 Vue.use(VueRouter)
 
@@ -12,7 +13,8 @@ const routes = [
     name: 'home',
     component: Home,
     children: [
-      { path: '/refence', component: Refence }
+      { path: '/refence', component: Refence },
+      { path: '/files', component: Files}
     ]
   },
   {

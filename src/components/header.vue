@@ -1,6 +1,9 @@
 <template>
   <header>
     <Blocks>
+      <input type="text" class="file-name" name="file-name" ref="filename" placeholder="filename">
+    </Blocks>
+    <Blocks>
       <AdvancedButton functiontype="newline" @newline="newline($event)"></AdvancedButton>
     </Blocks>
     <Blocks>
@@ -18,9 +21,14 @@
       <BaseButton functiontype="addtion" class="code" @addtion="addtion({mark:'\`'})"></BaseButton>
       <BaseButton functiontype="newblock" class="codeblock" @newblock="newblock('\`\`\`')"></BaseButton>
     </Blocks>
+    <BaseButton functiontype="save" class="save" @save="save()"></BaseButton>
+    <div class="refence">
+      <router-link to="/files">文档管理</router-link>
+    </div>
     <div class="refence">
       <router-link to="/refence">符号规则</router-link>
     </div>
+    <SaveNotifier ref="notifier" content="test!"></SaveNotifier>
   </header>
 </template>
 
@@ -29,8 +37,11 @@ import BaseButton from './basebutton.vue'
 import EventBus from './eventhub.js'
 import AdvancedButton from './AdvancedButton.vue'
 import Blocks from './Blocks.vue'
+import axios from 'axios'
+import TextaVue from './Texta.vue'
+import SaveNotifier from './saveNotifier'
 // 当你要使用导入的数据的时候, 直接用那个名字
-console.log(AdvancedButton)
+// console.log(AdvancedButton)
 
 export default {
   data () {
@@ -38,15 +49,20 @@ export default {
     }
   },
   mounted () {
+    // 监听重渲染的 $emit
     EventBus.$on('rerender2', (val) => {
-      console.log(val)
+      // console.log(val)
+    })
+    EventBus.$on('setTitle', val => {
+      this.$refs.filename.value = val;
     })
   },
   name: 'Header',
   components: {
     BaseButton,
     AdvancedButton,
-    Blocks
+    Blocks,
+    SaveNotifier
   },
   methods: {
     newline (type) {
@@ -120,6 +136,19 @@ export default {
     focuson: function (e, cursor) {
       e.focus()
       e.setSelectionRange(cursor, cursor)
+    },
+    // 保存文件
+    save () {
+      const textArea = document.querySelector('textarea')
+      console.log('文件名: ',this.$refs.filename.value);
+      axios.post('/save',{ name:this.$refs.filename.value, value:textArea.value }, {
+        headers:{ 'Content-Type': 'application/json' }
+      })
+        .then(res => {
+          console.log(res.data);
+          this.$refs.notifier.notify(this.$refs.filename.value);
+          })
+        .catch(err => {console.log('filed!',err);})
     }
   }
 }
@@ -173,5 +202,14 @@ header {
   background-position: center center;
   cursor: pointer;
   box-shadow: 0px 1px 5px 1px gray;
+}
+.save {
+  background: pink;
+}
+
+.file-name {
+  font-weight: 700;
+  border: none;
+  background-color: whitesmoke;
 }
 </style>
