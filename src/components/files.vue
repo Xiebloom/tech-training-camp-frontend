@@ -11,7 +11,7 @@
                 </tr>
                 <tr :key="item._id" v-for="item in list">
                     <td width="30%">{{item.name}}</td>
-                    <td class="value" width="30%">{{item.value.split('\n')[1]}}</td>
+                    <td class="value" width="30%">{{item.value.split('\n')[0]}}</td>
                     <td width="30%">{{item.date}}</td>
                     <td class="button" width="10%">
                         <a href="#" @click="getFile(item._id)" > getfile</a>
@@ -37,6 +37,7 @@ export default {
         // 获取文件列表
         axios.defaults.baseURL = 'http://127.0.0.1:3000'
         axios.get('/getList')
+            // created 钩子获取当前数据库内的文件数据
             .then(res => { 
                 // res.data 为一数组，包含所有的数据库的内容
                 // console.log(res.data);
@@ -45,16 +46,20 @@ export default {
     },
     methods: {
         getFile (id) {
+            // 根据 id 去数据库查找
             axios.get(`/getFile?id=${id}`)
             .then(res => { 
                 // res.data.value 为文档内容
                 // console.log(res.data.value);
+                // 重渲染 & 设置文档标题
                 eventhub.$emit('rerender2', res.data.value)
                 eventhub.$emit('setTitle', res.data.name)
+                // 回退到编辑界面
                 this.$router.push('/')
             })
         },
         back () {
+            // 点击 mask 直接回退
             this.$router.push('/')
         }
     }

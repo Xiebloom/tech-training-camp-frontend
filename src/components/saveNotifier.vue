@@ -13,6 +13,7 @@ export default {
     }
   },
   methods: {
+      // 淡入淡出，提示文件已保存
       notify (data) {
           this.content = data
           let notifier = document.querySelector('.notifier')

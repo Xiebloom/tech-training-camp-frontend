@@ -142,7 +142,7 @@ export default {
       const textArea = document.querySelector('textarea')
       console.log('文件名: ',this.$refs.filename.value);
       axios.post('/save',{ name:this.$refs.filename.value, value:textArea.value }, {
-        headers:{ 'Content-Type': 'application/json' }
+        headers:{ 'Content-Type': 'application/json' }  // 不设置成这个，服务端就没办法解析 post 请求
       })
         .then(res => {
           console.log(res.data);

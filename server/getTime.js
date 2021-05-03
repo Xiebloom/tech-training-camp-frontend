@@ -1,3 +1,4 @@
+// 获取当前时间
 function getTime() {
     let nowDate = new Date()
     let time = ''
